@@ -29,6 +29,7 @@ import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import org.wso2.carbon.context.PrivilegedCarbonContext;
 import org.wso2.carbon.identity.common.testng.WithCarbonHome;
+import org.wso2.carbon.identity.oauth.dcr.bean.ApplicationUpdateRequest;
 import org.wso2.carbon.identity.oauth.dcr.exception.DCRMException;
 import org.wso2.carbon.identity.oauth.dcr.service.DCRMService;
 import org.wso2.carbon.identity.oauth2.dcr.endpoint.dto.RegistrationRequestDTO;
@@ -106,6 +107,28 @@ public class DCRMUtilsTest {
                 (updateRequestDTO).getGrantTypes(), grantTypes);
         Assert.assertEquals(DCRMUtils.getApplicationUpdateRequest
                 (updateRequestDTO).getRedirectUris(), redirectUris);
+    }
+
+    @DataProvider(name = "updateRequestSecuritySettings")
+    public Object[][] updateRequestSecuritySettings() {
+
+        return new Object[][]{
+                {true, false},
+                {false, true}
+        };
+    }
+
+    @Test(dataProvider = "updateRequestSecuritySettings")
+    public void testGetApplicationUpdateRequestSecuritySettings(boolean requirePar,
+                                                                boolean requireSignedRequestObject) {
+
+        UpdateRequestDTO updateRequestDTO = new UpdateRequestDTO();
+        updateRequestDTO.setRequirePushAuthorizationRequest(requirePar);
+        updateRequestDTO.setRequireSignedRequestObject(requireSignedRequestObject);
+
+        ApplicationUpdateRequest applicationUpdateRequest = DCRMUtils.getApplicationUpdateRequest(updateRequestDTO);
+        Assert.assertEquals(applicationUpdateRequest.isRequirePushedAuthorizationRequests(), requirePar);
+        Assert.assertEquals(applicationUpdateRequest.isRequireSignedRequestObject(), requireSignedRequestObject);
     }
 
     @DataProvider(name = "BuildDCRMException")

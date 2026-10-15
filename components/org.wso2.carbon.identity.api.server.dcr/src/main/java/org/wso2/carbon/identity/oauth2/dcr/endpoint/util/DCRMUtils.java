@@ -147,7 +147,8 @@ public class DCRMUtils {
                 updateRequestDTO.getRequestObjectEncryptionAlgorithm());
         applicationUpdateRequest.setRequestObjectEncryptionMethod(updateRequestDTO.getRequestObjectEncryptionMethod());
         applicationUpdateRequest.setTlsClientAuthSubjectDN(updateRequestDTO.getTlsClientAuthSubjectDn());
-        applicationUpdateRequest.setRequirePushedAuthorizationRequests(updateRequestDTO.isRequireSignedRequestObject());
+        applicationUpdateRequest.setRequirePushedAuthorizationRequests
+                (updateRequestDTO.isRequirePushAuthorizationRequest());
         applicationUpdateRequest.setRequireSignedRequestObject(updateRequestDTO.isRequireSignedRequestObject());
         applicationUpdateRequest.setTlsClientCertificateBoundAccessTokens
                 (updateRequestDTO.isTlsClientCertificateBoundAccessToken());
